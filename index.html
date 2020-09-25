@@ -1,0 +1,23 @@
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<pre>
+    <link rel="stylesheet" href="http://jc.tleomic.com/vue/SelectList/SelectList.css" type="text/css" media="all" />
+    <script src="http://jc.tleomic.com/vue/SelectList/SelectList.js"></script>
+    组件名:select-list
+    必要data参数
+    SelectList
+        Data
+        Choise
+        Config
+            必填 type int [1:多选|2:单选|3:多选[树形数组]|4:单选[树形数组]]
+                    [树形数组]必要额外参数 树形数组外层可以是对象也可以是数组(参考a3和a4的区别)
+                        key 键
+                        val 值
+                        offspring 后代
+            可选 width  int/string  如没有%会自动加上px
+            可选 placeholder  匹配提示文字
+            可选 Regexval  正则匹配文字 如没有则默认匹配val文字(示范中若输e则能匹配到第3个框的a.a1.a1)
+            可选 class (有其他地方的需求可以自己修改源码)
+                    peripheral 最外围的class 添加新的class
+    
+</pre>
+示范可看<a href="http://jc.tleomic.com/vue/SelectList/SelectList.html">http://jc.tleomic.com/vue/SelectList/SelectList.html</a>
