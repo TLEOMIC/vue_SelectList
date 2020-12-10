@@ -2,26 +2,39 @@
 <html>
     <head>
         <title></title>
-        <link rel="stylesheet" href="http://jc.tleomic.com/vue/SelectList/SelectList.css" type="text/css" media="all" />
+        <link rel="stylesheet" href="SelectList.css" type="text/css" media="all" />
         
         <meta http-equiv="content-type" content="text/html; charset=utf-8" />
     </head>
     <body>
         <div id="app">
+            简易多选
             <select-list :group="'a1'"></select-list>
+            简易单选
             <select-list :group="'a2'"></select-list>
+            树形多选(命令行模式)
             <select-list :group="'a3'"></select-list>
+            树形单选(非命令行模式)
             <select-list :group="'a4'"></select-list>
-    	</div>      
+            树形单选(命令行模式)(原数组为空)
+            <select-list :group="'a5'"></select-list>
+            命令示例
+            <br />
+            push a 或 a
+            <br />
+            push a,b,c where a 或 a,b,c where a (必须上面那条使用了才能使用这条)
+            <br />
+            insert key=b1,val=b1 where a
+        </div>      
 
 
     </body>
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
-    <script src="http://jc.tleomic.com/vue/SelectList/SelectList.js"></script>
+    <script src="SelectList.js"></script>
     <script type="text/javascript" charset="utf-8">
         var app = new Vue({
-    	    el: '#app',
-    	    data: {
+            el: '#app',
+            data: {
                 SelectList:{
                     Data:{
                         a1:{a:1,b:2,c:3,d:4,e:5,f:6,g:7,h:8,i:9,j:10},
@@ -34,29 +47,29 @@
                                     a1:{
                                         "id":"a1",
                                         "val":"a1",
-                                        "offspring":[
-                                            {
+                                        "offspring":{
+                                            a1:{
                                                 "id":"aa1",
                                                 "val":"a1",
-                                                "Regexval":"a1-e1"
+                                                "Regexval":"a1-e1",
                                             },
-                                            {
+                                            a2:{
                                                 "id":"aa2",
                                                 "val":"a2"
                                             },
-                                            {
+                                            a3:{
                                                 "id":"aa3",
                                                 "val":"a3"
                                             },
-                                            {
+                                            a4:{
                                                 "id":"aa4",
                                                 "val":"a4"
                                             },
-                                            {
+                                            c1:{
                                                 "id":"aa5",
                                                 "val":"c1"
                                             }
-                                        ]
+                                        }
                                     },
                                     a2:{
                                         "id":"a2",
@@ -75,21 +88,24 @@
                             b:{
                                 "id":"b1",
                                 "val":"b",
-                                "offspring":[
-                                    {
+                                "offspring":{
+                                    b1:{
                                         "id":"b1",
                                         "val":"b1"
-                                    },{
+                                    },
+                                    b2:{
                                         "id":"b2",
                                         "val":"b2"
-                                    },{
+                                    },
+                                    b3:{
                                         "id":"b3",
                                         "val":"b3"
-                                    },{
+                                    },
+                                    b4:{
                                         "id":"b4",
                                         "val":"b4"
                                     }
-                                ]
+                                }
                             },
                             c:{
                                 "id":"c1",
@@ -164,13 +180,16 @@
                                     }
                                 ]
                             }
-                        ]
+                        ],
+                        a5:{},
+
                     },
                     Choise:{
                         a1:{},
                         a2:{},
                         a3:{},
-                        a4:{}
+                        a4:{},
+                        a5:{}
                     },
                     Config:{
                         a1:{
@@ -186,24 +205,43 @@
                             key:"id",
                             val:"val",
                             offspring:"offspring",
-                            placeholder:"更改文字",
                             Regexval:"Regexval",
+                            max:10,
+                            maxTips:true,
+                            command:true,
+                            commandAllow:"*",
                             class:{
-                            	peripheral:["css_SelectList_regionList_peripheral"]
-                            }
+                                peripheral:["css_SelectList_regionList_peripheral"]
+                            },
+                            commandVisual:true,
+                            commandMsg:{
+                              select:"正则匹配"  
+                            },
                         },
                         a4:{
                             type:"4",
                             key:"id",
                             val:"val",
-                            offspring:"offspring"
+                            offspring:"offspring",
+                            commandMsg:"更改文字",
+                        },
+                        a5:{
+                            type:"4",
+                            key:"id",
+                            val:"val",
+                            offspring:"offspring",
+                            command:true,
+                            commandDefaultType:"push",
+                            commandAllow:{insert:true,push:true,select:true},
+                            commandVisual:true,
+                            commandDefaultTypeAllow:{select:false,push:"批量插入"}
                         }
                     }
                 }
-    	    },
-    	    methods:{
+            },
+            methods:{
 
-	   		}
-	   	});
+            }
+        });
     </script>
 </html>

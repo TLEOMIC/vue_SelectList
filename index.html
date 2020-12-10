@@ -1,23 +1,55 @@
 <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<xmp>
+    <link rel="stylesheet" href="SelectList.css" type="text/css" media="all" />
+    <script src="SelectList.js"></script>
+</xmp>
 <pre>
-    <link rel="stylesheet" href="http://jc.tleomic.com/vue/SelectList/SelectList.css" type="text/css" media="all" />
-    <script src="http://jc.tleomic.com/vue/SelectList/SelectList.js"></script>
+   
     组件名:select-list
     必要data参数
     SelectList
         Data
+            [树形数组]必要额外参数 树形数组外层可以是对象也可以是数组(参考a3和a4的区别) (如果要使用命令行，必须是对象)
+            必填 key[string]            键
+            必填 val[string]            值
+            必填 offspring[string]      后代
+            可选 ?[由Regexval配置可得]  匹配文字字段(不匹配匹配val)
         Choise
         Config
-            必填 type int [1:多选|2:单选|3:多选[树形数组]|4:单选[树形数组]]
-                    [树形数组]必要额外参数 树形数组外层可以是对象也可以是数组(参考a3和a4的区别)
-                        key 键
-                        val 值
-                        offspring 后代
-            可选 width  int/string  如没有%会自动加上px
-            可选 placeholder  匹配提示文字
-            可选 Regexval  正则匹配文字 如没有则默认匹配val文字(示范中若输e则能匹配到第3个框的a.a1.a1)
-            可选 class (有其他地方的需求可以自己修改源码)
-                    peripheral 最外围的class 添加新的class
+            必填 type int               [1:多选|2:单选|3:多选[树形数组]|4:单选[树形数组]]
+            可选 width[int/string]      如没有%会自动加上px
+            可选 Regexval[string]       正则匹配文字 如没有Regexval则默认匹配val文字(示范中若输e则能匹配到第3个框的a.a1.a1)
+            可选 class[arr]             (有其他地方的需求可以自己修改源码)
+                    peripheral[string]  最外围的class 添加新的class
+            可选 max[int]               最大数量
+            可选 maxTips[bool]          超越最大的提示 默认false
+            可选 maxTipsMsg[string]     超越最大的提示的提示文字
+            
+            可选 commandMsg[string/object]    匹配提示文字
+                1.不填 提示正则匹配
+                2.string 提示commandMsg所填内容
+                3.object 情况 {select:"123","Default":""}
+                    当 commandDefaultType 等于 上述如[select] 时 提示文字为123 若commandDefaultType 的值在上述不存在 则会提示Default内的文字 ,如无Default则提示空
+            可选 command[bool]          命令行模式(仅type 3/4模式生效) 默认false false的情况仅仅开启select功能
+                命令 类似mysql          但很简易
+                    changemode ?                //? -> 3 / 4 切换type模式
+                    push ?,?,..                 //?是值
+                    push ?,?,.... where ?,?...  //解释 where后面的跟随的节点，比如你要在a后加就填a,a里面的a1 则填a,a1以此类推
+                    insert key=?,val=?
+                    insert key=?,val=? where ?,?...
+                    updata key=?,val=?
+                    updata key=?,val=? where ?,?...
+                    delete ?,?,.....            //解释 与where一样
+                    delete [ALL]                //全部删除
+                    delete [ALLCHOISE]          //全部删除已选择数据
+                    select ?                    //?为正则表达式
+            可选 commandAllow[object]   键:insert/updata/delete/push/select/changemode,值必须为true才生效,或者字符串 * 参考a3和a5配置区别 默认为*
+            可选 commandDefaultType[string] 默认类型 上述commandAllow内类型 默认select 如果进行了配置，即使上面没有配置这个，这个也会生效(select无论如何都会生效)
+            
+            可选 commandVisual[bool]  默认false     当前命令的可视化切换列表
+            可选 commandDefaultTypeAllow            没有配置默认显示select 和push,配置则会进行相应的添加 {select:"搜索"} 或 删除{select:false}
+            
+            可选 PerformCleanup[bool]  默认false    执行后清理命令行内容
     
 </pre>
-示范可看<a href="http://jc.tleomic.com/vue/SelectList/SelectList.html">http://jc.tleomic.com/vue/SelectList/SelectList.html</a>
+示范可看<a href="SelectList.html">http://jc.tleomic.com/vue/SelectList/SelectList.html</a>

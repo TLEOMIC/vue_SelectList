@@ -84,17 +84,39 @@
     background: white;
     z-index: 999999999;
 }
-.css_SelectList_ul .preg_match{
-    padding: unset!important;
+.css_SelectList_ul .command{
+    padding: 4px 0 4px 4px !important;
     position: relative;
 }
-.css_SelectList_ul .preg_match input{
+.css_SelectList_ul .command input{
     border: unset;
     width: 90%;
     height: 100%;
     padding: 5px 0 5px 12px!important;
     margin: 1px;
     outline:none;
+}
+.css_SelectList_ul .command .commandVisual{
+    width: 80%;
+}
+.css_SelectList_ul .command .commandVisualButton{
+    margin-top: 1px;
+    height: 24px;
+    line-height: 22px;
+    font-size: 12px;
+    border: 0;
+    color: #747a8c;
+    background-color: rgba(239,241,245,.4);
+    border-radius: 4px;
+    padding: 0 10px 0 10px;
+    cursor: default;
+    float: left;
+    max-width: 99%;
+    position: relative;
+    overflow: hidden;
+}
+.css_SelectList_ul .command .icon{
+    margin-top: 5px;
 }
 .css_SelectList_ul .preg_match .multi_choice_state{
     position: absolute;
@@ -116,6 +138,7 @@
 .css_SelectList_ul li{
     padding: 5px 0 5px 12px;
     user-select: none;
+    position: relative;
 }
 .css_SelectList_ul .css_SelectList_ul_hover:hover{
     background-color: rgba(0,152,172,0.14);
@@ -141,7 +164,7 @@
     font-weight: 600;
 }
 .css_SelectList_ul .multi_choice_state{
-    float: right;
-    padding-top: 3px;
-    padding-right: 7px;
+    position: absolute;
+    top: 3px;
+    right: 4px;
 }
