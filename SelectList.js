@@ -1,11 +1,12 @@
 //格式化隔离用，以下代码不能去注释
+//1.3.2021.1.17
 class SelectList{
     static InitTemplate(type){
         switch(type){
             case 'select-list':
                 return `
                     <div @click="fun('stop')" :class="[{css_SelectList:true},fun('changeclass','peripheral')]" :style="fun('ThisWidth')">
-                        <div @click="fun('input')" class="css_SelectList_input">
+                        <div @click="fun('input')" class="css_SelectList_input" :style="fun('ThisHeight')">
                             <template v-if="/(^1$)|(^3$)/.test(this.$root.SelectList.Config[group]['type'])">
                                 <ul>
                                     <li v-for="(val,key) in this.$root.SelectList.Choise[group]">
@@ -20,6 +21,9 @@ class SelectList{
                             <template v-else>
                                 <div class="one">error:Config->["group"]->type 定义错误</div>
                             </template>
+                            <div class="css_cleanAll" @click="fun('clean_all')" v-show="show">
+                                X
+                            </div>
                         </div>
                         <div v-show="show&&(JSON.stringify(this.$root.SelectList.Data[group]) !='{}'|| this.$root.SelectList.Config[group]['command']==true)" class="css_SelectList_ul">
                             <ul>
@@ -208,21 +212,13 @@ class SelectList{
                 }
             break;
             case '2':
-                if(vm.$root.SelectList.Choise[group][objs[0]] != objs[1]){
-                    vm.$root.SelectList.Choise[group] = {};
-                    Vue.set(vm.$root.SelectList.Choise[group], objs[0], objs[1]);
-                }else{
-                    vm.$root.SelectList.Choise[group] = {};
-                }
-                break;
+                vm.$root.SelectList.Choise[group] = {};
+                Vue.set(vm.$root.SelectList.Choise[group],objs[0],objs[1]);
+            break;
             case '4':
-                if(vm.$root.SelectList.Choise[vm.fathergroup][objs[0]] != objs[1]){
-                    vm.$root.SelectList.Choise[vm.fathergroup] = {};
-                    Vue.set(vm.$root.SelectList.Choise[vm.fathergroup], objs[0], objs[1]);
-                }else{
-                    vm.$root.SelectList.Choise[vm.fathergroup] = {};
-                }
-                break;
+                vm.$root.SelectList.Choise[vm.fathergroup] = {};
+                Vue.set(vm.$root.SelectList.Choise[vm.fathergroup],objs[0],objs[1]);
+            break;
         }
     }
 }
@@ -242,6 +238,10 @@ Vue.component('select-list',{
     methods:{
         fun(type,objs){
             switch(type){
+                //清空
+                case 'clean_all':
+                    this.$root.SelectList.Choise[this.group] = {};
+                    break;
                 case 'commandMsg':
                     //空
                     if(this.$root.SelectList.Config[this.group]['commandMsg'] == undefined){
@@ -508,6 +508,24 @@ Vue.component('select-list',{
                     }
                     return {width:this.$root.SelectList.Config[this.group]['width']+"px"}
                 break;
+                //整体长度
+                case 'ThisHeight':
+                    var arr = {};
+                    if (this.$root.SelectList.Config[this.group]['minHeight'] == undefined && this.$root.SelectList.Config[this.group]['minHeight'] == undefined) {
+                        return {}
+                    }
+                    if (/%/.test(this.$root.SelectList.Config[this.group]['minHeight'])) {
+                        arr['minHeight'] = this.$root.SelectList.Config[this.group]['minHeight'];
+                    }else if (this.$root.SelectList.Config[this.group]['minHeight'] != undefined) {
+                        arr['minHeight'] = this.$root.SelectList.Config[this.group]['minHeight'] + "px";
+                    }
+                    if (/%/.test(this.$root.SelectList.Config[this.group]['maxHeight'])) {
+                        arr['maxHeight'] = this.$root.SelectList.Config[this.group]['maxHeight'];
+                    }else if (this.$root.SelectList.Config[this.group]['maxHeight'] != undefined) {
+                        arr['maxHeight'] = this.$root.SelectList.Config[this.group]['maxHeight'] + "px";
+                    }
+                    return arr;
+                    break;
                 //数据循环
                 case 'for':
                     if(this.placeholder == ''){
@@ -580,6 +598,9 @@ Vue.component('select-list',{
     },
     created(){
         var vm = this.vm =this;
+        if(!this.$root.SelectList.Config[this.group]['prohibit']){
+            Vue.set(this.$root.SelectList.Config[this.group], 'prohibit', false);
+        }
         document.addEventListener('click', function(){
             if(vm.stop){
                 vm.stop = false;
